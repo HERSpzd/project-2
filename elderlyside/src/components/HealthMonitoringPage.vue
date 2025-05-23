@@ -192,8 +192,8 @@ const bloodSugarHistoryData = ref([]);
 const video = ref(null);
 const canvas = ref(null);
 
-let bloodPressureChart = null; // 血压图表实例
-let bloodSugarChart = null; // 血糖图表实例
+let bloodPressureChart = null;
+let bloodSugarChart = null;
 
 const handleUploadSuccess = (response, type) => {
   uploading.value = false;
@@ -260,7 +260,7 @@ const uploadImage = async (imageDataURL, type) => {
 
     const data = await response.json();
     handleUploadSuccess(data, type);
-    await fetchHistoryData(); // 上传成功后重新获取历史数据并更新图表
+    await fetchHistoryData();
   } catch (error) {
     uploading.value = false;
     ElMessage.error("Upload failed, please check the network");
@@ -269,7 +269,7 @@ const uploadImage = async (imageDataURL, type) => {
 
 const fetchHistoryData = async () => {
   try {
-    const token = localStorage.getItem("token") || store.getters.token; // 从 localStorage 或 vuex 获取 token
+    const token = localStorage.getItem("token") || store.getters.token;
     const response = await fetch(historyDataUrl.value, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -300,7 +300,6 @@ const fetchHistoryData = async () => {
             new Date(item.time).toLocaleTimeString(),
         }));
 
-      // 数据获取成功后绘制图表
       renderBloodPressureChart(bloodPressureHistoryData.value);
       renderBloodSugarChart(bloodSugarHistoryData.value);
     } else {
@@ -313,10 +312,8 @@ const fetchHistoryData = async () => {
   }
 };
 
-// 绘制血压图表
 const renderBloodPressureChart = (data) => {
   if (!data || data.length === 0) {
-    // 如果没有数据，可以清空图表或显示提示
     if (bloodPressureChart) {
       bloodPressureChart.clear();
     }
@@ -329,7 +326,6 @@ const renderBloodPressureChart = (data) => {
     );
   }
 
-  // 按时间排序数据
   const sortedData = data.sort((a, b) => new Date(a.time) - new Date(b.time));
 
   const dates = sortedData.map((item) => new Date(item.time).toLocaleString());
@@ -383,7 +379,6 @@ const renderBloodPressureChart = (data) => {
   bloodPressureChart.setOption(option);
 };
 
-// 绘制血糖图表
 const renderBloodSugarChart = (data) => {
   if (!data || data.length === 0) {
     if (bloodSugarChart) {
@@ -398,7 +393,6 @@ const renderBloodSugarChart = (data) => {
     );
   }
 
-  // 按时间排序数据
   const sortedData = data.sort((a, b) => new Date(a.time) - new Date(b.time));
 
   const dates = sortedData.map((item) => new Date(item.time).toLocaleString());
@@ -440,7 +434,6 @@ const renderBloodSugarChart = (data) => {
   bloodSugarChart.setOption(option);
 };
 
-// 监听历史数据变化，数据更新时重新渲染图表
 watch(bloodPressureHistoryData, (newData) => {
   renderBloodPressureChart(newData);
 });
@@ -450,7 +443,6 @@ watch(bloodSugarHistoryData, (newData) => {
 });
 
 onMounted(() => {
-  // 确保在 DOM 挂载后初始化相机和获取历史数据
   navigator.mediaDevices
     .getUserMedia({ video: true })
     .then((stream) => {

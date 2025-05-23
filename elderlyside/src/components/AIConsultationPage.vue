@@ -133,7 +133,7 @@ import {
   Food,
   Basketball,
 } from "@element-plus/icons-vue";
-import { ElMessage } from "element-plus"; // 引入 ElMessage
+import { ElMessage } from "element-plus";
 
 const router = useRouter();
 const store = useStore();

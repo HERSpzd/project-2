@@ -176,7 +176,11 @@
             shadow="hover"
             @click="openBookingDialog(coach)"
           >
-            <img :src="coach.avatar" class="coach-avatar" alt="Coach Avatar" />
+            <img
+              :src="coach.image_url"
+              class="coach-avatar"
+              alt="Coach Avatar"
+            />
             <div class="coach-info">
               <h4>{{ coach.name }}</h4>
               <p>{{ coach.specialty }}</p>

@@ -325,7 +325,7 @@ router.post("/orders", verifyToken, async (req, res) => {
 
     const notifyUrl =
       process.env.ALIPAY_NOTIFY_URL ||
-      "https://9825-121-31-246-92.ngrok-free.app/api/homecare2/alipay-notify";
+      "https://7ca0-180-141-183-74.ngrok-free.app/api/homecare2/alipay-notify";
     const returnUrl =
       process.env.ALIPAY_RETURN_URL || "http://localhost:8081/diet-management";
 
